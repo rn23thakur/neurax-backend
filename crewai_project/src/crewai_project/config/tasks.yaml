@@ -1,0 +1,60 @@
+task_1:
+  description: Project Initialization and Environment Setup
+  expected_output: Project structure and configuration files
+  agent: agent_one
+  context: []
+  output_file: output/project_initialization.py
+task_2:
+  description: Database Schema Design and Implementation
+  expected_output: Database schema and models
+  agent: agent_one
+  context: [task_1]
+  output_file: output/database_schema.py
+task_3:
+  description: Authentication and Authorization Layer
+  expected_output: Authentication and authorization middleware
+  agent: agent_one
+  context: [task_2]
+  output_file: output/authentication_layer.py
+task_4:
+  description: Core API Framework and Error Handling
+  expected_output: API framework and error handling middleware
+  agent: agent_one
+  context: [task_3]
+  output_file: output/core_api.py
+task_5:
+  description: Neurax Core Logic Module
+  expected_output: Core logic module
+  agent: agent_two
+  context: [task_2, task_4]
+  output_file: output/neurax_core.py
+task_6:
+  description: RESTful API Routes for Project Management
+  expected_output: API routes for project management
+  agent: agent_one
+  context: [task_5]
+  output_file: output/project_management.py
+task_7:
+  description: External API Integration
+  expected_output: External API integration
+  agent: agent_one
+  context: [task_5]
+  output_file: output/external_api.py
+task_8:
+  description: Logging and Monitoring Setup
+  expected_output: Logging and monitoring setup
+  agent: agent_one
+  context: [task_4]
+  output_file: output/logging_monitoring.py
+task_9:
+  description: Frontend Integration Preparation
+  expected_output: Frontend integration preparation
+  agent: agent_one
+  context: [task_6]
+  output_file: output/frontend_integration.py
+task_10:
+  description: CI/CD Pipeline and Deployment Configuration
+  expected_output: CI/CD pipeline and deployment configuration
+  agent: agent_three
+  context: [task_1, task_5, task_8]
+  output_file: output/ci_cd_pipeline.py
