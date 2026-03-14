@@ -1,15 +1,15 @@
 {
-  "process_id": "fa373c13-2349-4c37-b0fe-8c243ea740b3",
+  "process_id": "759b7202-e5b9-40ce-84f2-cb2efc902016",
   "status": "completed",
-  "processing_time": 18.486588,
-  "raw_text": "Aryan Thakur Email: rn23thakur@gmail.com Mobile: +91-9867541809 LinkedIn: aryan-thakur Education Birla Institute of Technology and Science BITS Pilani  Goa Campus Goa, India GPA: 7.4/10.0 Aug 2021  May 2026 B.E. Electronics  Instrumentation |B.E. Mechanical Hiranandani Foundation School Thane, India ICSE: 95.8 |ISC: 92.8 2019  2021 Experience Nurix AI Bengaluru, India Software Engineering Intern Jun 2025  Present Developed backend services forABCL s outbound Voice AI agents , including scheduling/rescheduling APIs, in-call SMS delivery, post-call rescheduler, and automated lead reconciliation into their CRM. Evaluated LLM orchestration frameworks LiteLLM and others , leading to the adoption of Bifrost , a high-performance orchestrator deployed across AWS regions for low-latency, scalable model access. Integrated Azure STT and Hume TTS into the agentic platform, extending multimodal voice agent capabilities in production. BITS Pilani, Goa Campus Goa, India Teaching Assistant Aug 2023  May 2025 Assisted instruction for Digital Design  Engineering Graphics Verilog, AutoCAD and Introduction to Logic Coursera BITS Online Program . Projects PID Controller for Ball and Beam System  Python, Control Systems, OpenAI Gym : Developed and implemented a PID controller in the BallBeamSetpoint-v0 environment. Tuned PID parameters Kp, Ki, Kd for stable control of the ball s position relative to a setpoint. Analyzed system response and visualized control performance using NumPy and Matplotlib. SCARA Robot Arm Design  Robotics, Embedded Systems : Designed and built a SCARA robot arm Dec 2021  Feb 2022 using BLDC motors with a custom motor controller and belt-driven mechanism for stability and reduced motor load. Fabricated with 3D printed PLA, aluminum, steel, and carbon fiber to achieve a strong yet lightweight structure. Integrated innovative gripper mechanisms to enhance manipulation performance. CPU Scheduling Algorithms Simulator  C++ OOP, STL : Implemented FCFS, Round Robin, SJF, MLQ, and Priority Scheduling with aging. Applied OOP principles for modularity, leveraged STL data structures for efficiency, and designed performance metrics to evaluate algorithms. Skills Programming  Simulation : Python, C++, MATLAB/Simulink, Cadence Virtuoso Electronics  PCB : Control Systems, Embedded Systems, PCB Design KiCad , Circuit Prototyping Tools  Instrumentation : FPGA s, Git, Linux Extracurricular Activities Electronics and Robotics Club  Core Team Member : Organized workshops, competitions, and hackathons; led 3+ robotics projects inverted pendulum robot, robotic arm , developed automation solutions using microcontrollers, and mentored 50+ students in circuit design and programming. Basketball : Led school team to victory in the District Sports Office DSO Championship; served as Hostel Captain, guiding the team to Interhostel Finals. ",
+  "processing_time": 15.160819,
+  "raw_text": "Aryan Thakur 9867541809 |rn23thakur@gmail.com Education BITS Pilani Goa, India Bachelors of Engineering in Electronics and Instrumentation + Mechanical Aug. 2021  May 2026 Relevant Coursework: Data Structures and Algorithms, Object-Oriented Programming, Operating Systems, Database Management Systems Experience Teaching Assistant Digital Design, Engineering Graphics BITS Pilani Goa, India Instructed on Verilog-based combinational/sequential logic design and AutoCAD LT for technical drafting. Taught orthographic projections, isometric views, and digital circuit simulation techniques. Research Intern June 2023  Aug. 2023 Indira Gandhi Centre for Atomic Research IGCAR Tamil Nadu, India Conducted CFD simulations for fire safety protocol design in nuclear power plant settings. Validated turbulence models and analyzed fire spread impact based on ignition location. Projects CPU Scheduling Algorithms Simulator  Object-Oriented Programming C++, OOP, STL Designed and implemented various CPU scheduling algorithms including FCFS, Round Robin, SJF, MLQ, and Priority Scheduling with aging. Applied OOP principles such as inheritance and polymorphism to build modular, reusable components for scheduling logic. Utilized data structures like priority queues, queues, and vectors to ensure efficient task handling with support for time slicing, preemption, and dynamic priority adjustment. Developed performance metrics such as turnaround time, waiting time, and CPU utilization, incorporating aging to mitigate starvation. Book Store Web Application  Full-Stack MERN Project MongoDB, Express.js, React, Node.js, Tailwind CSS Built a responsive full-stack Book Store application using the MERN stack to handle user interactions and backend operations. Developed RESTful APIs with Express and Mongoose for robust CRUD functionality and efficient data management. Designed an intuitive UI/UX using React and Tailwind CSS, incorporating book search, detail views, and interactive modals for enhanced user engagement. ThreadSketch: String Art Generator |Python, NumPy, Matplotlib, OpenCV Built an image-to-string-art converter that used the Radon Transform to detect edges and generate thread paths. Optimized the sequencing and placement of threads to balance visual quality and efficiency, and extended the tool to support multi-color rendering through CMYK layer decomposition. Extracurricular Activities Electronics and Robotics Club  Core Team Member Organized technical workshops, competitions, and hackathons focused on robotics and electronics. Led 3+ robotics projects, including an inverted pendulum robot and robotic arm prototype. Developed and implemented automation solutions using microcontrollers and embedded systems. Taught circuit design and microcontroller programming to 50+ students in club workshops. Basketball Led my school team to victory in the District Sports Office DSO Basketball Championship. Served as Captain of the hostel basketball team, guiding the team to the Interhostel Finals. ",
   "extracted_info": {
     "name": "Aryan Thakur",
     "email": [
       "rn23thakur@gmail.com"
     ],
     "mobile": [
-      "+91-9867541809"
+      "9867541809"
     ],
     "address": {
       "city": "Goa",
@@ -17,85 +17,94 @@
       "country": "India"
     },
     "skills": [
-      "Python",
+      "Data Structures and Algorithms",
+      "Object-Oriented Programming",
+      "Operating Systems",
+      "Database Management Systems",
+      "Verilog",
+      "AutoCAD LT",
+      "Digital Circuit Simulation",
+      "CFD Simulations",
       "C++",
-      "MATLAB/Simulink",
-      "Cadence Virtuoso",
-      "Control Systems",
+      "OOP",
+      "STL",
+      "MongoDB",
+      "Express.js",
+      "React",
+      "Node.js",
+      "Tailwind CSS",
+      "RESTful APIs",
+      "Mongoose",
+      "Python",
+      "NumPy",
+      "Matplotlib",
+      "OpenCV",
+      "Radon Transform",
+      "Robotics",
+      "Electronics",
+      "Microcontrollers",
       "Embedded Systems",
-      "PCB Design KiCad",
-      "Circuit Prototyping",
-      "FPGAs",
-      "Git",
-      "Linux"
+      "Circuit Design"
     ],
     "companies": [
       {
-        "company_name": "Nurix AI",
+        "company_name": "BITS Pilani",
         "start_date": {
-          "year": "2025",
-          "month": "06"
+          "year": "Not Available",
+          "month": "Not Available"
         },
         "end_date": {
           "year": "Not Available",
           "month": "Not Available"
         },
-        "designation": "Software Engineering Intern",
-        "is_current": true,
-        "total_experience_in_months": 9
+        "designation": "Teaching Assistant",
+        "is_current": false,
+        "total_experience_in_months": 0
       },
       {
-        "company_name": "BITS Pilani, Goa Campus",
+        "company_name": "Indira Gandhi Centre for Atomic Research",
         "start_date": {
+          "year": "2023",
+          "month": "06"
+        },
+        "end_date": {
           "year": "2023",
           "month": "08"
         },
-        "end_date": {
-          "year": "2025",
-          "month": "05"
-        },
-        "designation": "Teaching Assistant",
+        "designation": "Research Intern",
         "is_current": false,
-        "total_experience_in_months": 21
+        "total_experience_in_months": 2
       }
     ],
-    "linkedin_url": "https://www.linkedin.com/in/aryan-thakur",
+    "linkedin_url": "Not Available",
     "github_url": "Not Available",
     "education": [
       {
-        "college_name": "Birla Institute of Technology and Science BITS Pilani Goa Campus",
+        "college_name": "BITS Pilani",
         "start_year": "2021",
         "end_year": "2026",
-        "description": "B.E. Electronics Instrumentation | B.E. Mechanical GPA: 7.4/10.0"
-      },
-      {
-        "college_name": "Hiranandani Foundation School",
-        "start_year": "2019",
-        "end_year": "2021",
-        "description": "ICSE: 95.8 | ISC: 92.8"
+        "description": "Bachelors of Engineering in Electronics and Instrumentation + Mechanical. Relevant Coursework: Data Structures and Algorithms, Object-Oriented Programming, Operating Systems, Database Management Systems."
       }
     ],
     "certifications": [],
-    "profile_name": "Aryan Thakur",
+    "profile_name": "Not Available",
     "achievements": [
       {
-        "year": "2023",
-        "title": "Electronics and Robotics Club Core Team Member",
-        "description": "Organized workshops, competitions, and hackathons; led 3+ robotics projects (inverted pendulum robot, robotic arm); developed automation solutions using microcontrollers; mentored 50+ students in circuit design and programming."
+        "year": "Not Available",
+        "title": "District Sports Office (DSO) Basketball Championship Winner",
+        "description": "Led my school team to victory in the District Sports Office DSO Basketball Championship."
       },
       {
-        "year": "2020",
-        "title": "Basketball Champion",
-        "description": "Led school team to victory in the District Sports Office (DSO) Championship; served as Hostel Captain, guiding the team to Interhostel Finals."
+        "year": "Not Available",
+        "title": "Interhostel Finals Participant (Basketball Captain)",
+        "description": "Served as Captain of the hostel basketball team, guiding the team to the Interhostel Finals."
       }
     ],
-    "total_experience_in_months": 30,
-    "is_fresher": false
+    "total_experience_in_months": 2,
+    "is_fresher": true
   },
   "vector_embedding": null,
-  "links": [
-    "https://www.linkedin.com/in/aryan-thakur-0a7b54209"
-  ],
+  "links": [],
   "token_metrics": {
     "embedding_tokens": 0,
     "extraction_tokens": 0

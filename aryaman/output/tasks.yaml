@@ -1,60 +1,73 @@
-task_1:
-  description: Project Initialization and Environment Setup
-  expected_output: Project structure and configuration files
-  agent: agent_one
-  context: []
-  output_file: output/project_initialization.py
-task_2:
-  description: Database Schema Design and Implementation
-  expected_output: Database schema and models
-  agent: agent_one
-  context: [task_1]
-  output_file: output/database_schema.py
-task_3:
-  description: Authentication and Authorization Layer
-  expected_output: Authentication and authorization middleware
-  agent: agent_one
-  context: [task_2]
-  output_file: output/authentication_layer.py
-task_4:
-  description: Core API Framework and Error Handling
-  expected_output: API framework and error handling middleware
-  agent: agent_one
-  context: [task_3]
-  output_file: output/core_api.py
-task_5:
-  description: Neurax Core Logic Module
-  expected_output: Core logic module
-  agent: agent_two
-  context: [task_2, task_4]
-  output_file: output/neurax_core.py
-task_6:
-  description: RESTful API Routes for Project Management
-  expected_output: API routes for project management
-  agent: agent_one
-  context: [task_5]
-  output_file: output/project_management.py
-task_7:
-  description: External API Integration
-  expected_output: External API integration
-  agent: agent_one
-  context: [task_5]
-  output_file: output/external_api.py
-task_8:
-  description: Logging and Monitoring Setup
-  expected_output: Logging and monitoring setup
-  agent: agent_one
-  context: [task_4]
+task_31:
+  description: "Set up the modular Python project structure, environment management, and a centralized configuration system to drive the ML pipeline. Initialize a Python environment using 'venv' or 'conda'. Create a directory structure: 'src/' for core logic, 'config/' for YAML/JSON settings, 'data/' for raw/processed datasets, and 'models/' for checkpoints. Implement a configuration manager using 'python-dotenv' and 'PyYAML' to load hyperparameters and system paths. Use 'pyproject.toml' for dependency management including 'torch' (or 'tensorflow'), 'pandas', 'scikit-learn', and 'fastapi'."
+  expected_output: "A fully initialized Python project structure with a functional configuration system, 'pyproject.toml' for dependency management, and all specified directories created. A sample configuration file should be loadable and its values accessible in Python."
+  agent: systems_architect
+  output_file: output/project_infrastructure_config.py
+task_32:
+  description: "Create modules to load raw data, perform cleaning, handle missing values, and execute feature transformations. Implement a 'DataProcessor' class in 'src/data_pipeline.py'. Use 'pandas' for CSV/JSON ingestion. Include methods for: 1. Cleaning (removing duplicates), 2. Imputation (filling NaNs with mean/median), 3. Transformation (StandardScaler or MinMaxScaler), and 4. Splitting (train_test_split). Ensure the pipeline is reproducible by saving transformation parameters."
+  expected_output: "A 'data_ingestion_preprocessing.py' module containing a 'DataProcessor' class with methods for data loading, cleaning, imputation, transformation, and splitting. The module should be able to process raw data into a clean, transformed, and split dataset, saving any necessary transformation parameters."
+  agent: ml_engineer
+  context:
+    - task_31
+  output_file: output/data_ingestion_preprocessing.py
+task_33:
+  description: "Design a flexible neural network class that allows for configurable layers and activation functions based on input features. Define a 'NeuralNet' class inheriting from 'torch.nn.Module'. Use the configuration file to determine the number of hidden layers, neurons per layer, and activation functions (e.g., ReLU, Sigmoid). Ensure the input dimension dynamically adapts to the preprocessed features from Task 32. Use 'nn.Sequential' for modular assembly of the layers."
+  expected_output: "A 'nn_architecture.py' module containing a 'NeuralNet' class, inheriting from 'torch.nn.Module', capable of building a configurable neural network. The model should dynamically adapt its input layer based on feature dimensions and use 'nn.Sequential' for layer assembly."
+  agent: ml_engineer
+  context:
+    - task_31
+    - task_32
+  output_file: output/nn_architecture.py
+task_34:
+  description: "Set up the training objectives and parameter update logic using standard optimizers and learning rate schedulers. Create a factory module to instantiate loss functions (e.g., 'nn.MSELoss', 'nn.CrossEntropyLoss') and optimizers (e.g., 'Adam', 'SGD') based on the PRD configuration. Implement a learning rate scheduler (e.g., 'StepLR' or 'ReduceLROnPlateau') to manage the training regime as specified in the PRD."
+  expected_output: "A 'loss_optimizers.py' module with factory functions to create configurable loss functions, optimizers, and learning rate schedulers. The module should be able to instantiate these components based on parameters provided via the configuration system."
+  agent: ml_engineer
+  context:
+    - task_33
+  output_file: output/loss_optimizers.py
+task_35:
+  description: "Implement the core training loop including epoch control, batching, forward/backward passes, and parameter updates. Develop a 'Trainer' class in 'src/engine.py'. Use 'torch.utils.data.DataLoader' for batching. The loop must iterate through epochs, perform 'optimizer.zero_grad()', 'loss.backward()', and 'optimizer.step()'. Include logic to track the running loss and report progress to the console/logger. Ensure integration with the DataProcessor output."
+  expected_output: "A 'training_engine.py' module containing a 'Trainer' class that encapsulates the full training loop. It should handle batching, forward/backward passes, optimizer steps, and integrate with the data processor and model. The trainer should report training progress and loss."
+  agent: ml_engineer
+  context:
+    - task_32
+    - task_34
+  output_file: output/training_engine.py
+task_36:
+  description: "Enable the system to save and restore model weights, optimizer states, and metadata to support resumed training and deployment. Implement 'save_checkpoint' and 'load_checkpoint' functions. The checkpoint should be a dictionary containing: 'model_state_dict', 'optimizer_state_dict', 'epoch', and 'loss'. Save files as '.pth' or '.pt' in the 'models/' directory. Use timestamped filenames or 'best_model.pth' logic."
+  expected_output: "A 'model_checkpointing.py' module with 'save_checkpoint' and 'load_checkpoint' functions. These functions should correctly serialize and deserialize model states, optimizer states, and training metadata to/from '.pth' files in the 'models/' directory."
+  agent: ml_engineer
+  context:
+    - task_35
+  output_file: output/model_checkpointing.py
+task_37:
+  description: "Create a module to calculate Accuracy, Precision, Recall, F1 Score, and Loss metrics on the validation/test set. Implement an 'Evaluator' class. Use 'scikit-learn.metrics' for calculating multi-class or binary classification metrics (Accuracy, Precision, Recall, F1). For regression, include RMSE/MAE. The module should produce a summary report and optionally save metrics to a JSON file for history tracking."
+  expected_output: "An 'evaluation_suite.py' module containing an 'Evaluator' class that can compute various performance metrics (Accuracy, Precision, Recall, F1, RMSE/MAE) on a given dataset. It should generate a summary report and have the option to save metrics to a JSON file."
+  agent: ml_engineer
+  context:
+    - task_35
+    - task_36
+  output_file: output/evaluation_suite.py
+task_38:
+  description: "Expose the trained model via a REST API using FastAPI to serve real-time predictions. Create 'app/main.py' using 'FastAPI'. Implement a POST endpoint '/predict' that: 1. Accepts a JSON payload of features, 2. Preprocesses the input using the saved transformation parameters from Task 32, 3. Loads the latest checkpoint, 4. Runs a forward pass in 'eval' mode, 5. Returns the prediction result as JSON."
+  expected_output: "An 'inference_api.py' module (or 'app/main.py' as specified in details) implementing a FastAPI application with a '/predict' POST endpoint. This endpoint should correctly receive input, preprocess it using saved parameters, load a trained model, perform inference, and return predictions as JSON."
+  agent: backend_engineer
+  context:
+    - task_36
+  output_file: output/inference_api.py
+task_39:
+  description: "Implement comprehensive logging for training progress, loss tracking, and system events. Configure the standard 'logging' library to output to both 'logs/system.log' and stdout. Use 'matplotlib' or 'seaborn' to generate a 'loss_curve.png' and 'metrics_plot.png' at the end of training. Log key events: data loading start, training epoch end, evaluation results, and API request errors."
+  expected_output: "A 'logging_monitoring.py' module that sets up a comprehensive logging system, directing output to both console and a file ('logs/system.log'). It should also include functionality to generate and save 'loss_curve.png' and 'metrics_plot.png' plots after training/evaluation."
+  agent: systems_architect
+  context:
+    - task_35
+    - task_37
   output_file: output/logging_monitoring.py
-task_9:
-  description: Frontend Integration Preparation
-  expected_output: Frontend integration preparation
-  agent: agent_one
-  context: [task_6]
-  output_file: output/frontend_integration.py
-task_10:
-  description: CI/CD Pipeline and Deployment Configuration
-  expected_output: CI/CD pipeline and deployment configuration
-  agent: agent_three
-  context: [task_1, task_5, task_8]
-  output_file: output/ci_cd_pipeline.py
+task_40:
+  description: "Prepare the system for production using containerization and startup scripts. Write a 'Dockerfile' that installs system dependencies, copies the source code, and sets the 'uvicorn' command for the API. Create a 'docker-compose.yml' for orchestration. Provide a 'README.md' with setup instructions, API documentation, and examples of how to run the training vs. inference modes."
+  expected_output: "A 'deployment_wrapper.py' module that generates a functional 'Dockerfile' and 'docker-compose.yml' for containerizing and orchestrating the application. It should also generate a comprehensive 'README.md' file with clear setup, usage, and API documentation."
+  agent: systems_architect
+  context:
+    - task_38
+    - task_39
+  output_file: output/deployment_wrapper.py

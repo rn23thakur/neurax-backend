@@ -8,14 +8,15 @@ FastAPI router:
 
 from __future__ import annotations
 
+import json
 import subprocess
 import traceback
 
 from fastapi import APIRouter, HTTPException, Query
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, StreamingResponse
 from pydantic import BaseModel, Field
 
-from services.crew_runner import ZIP_OUTPUT, run_crew
+from services.crew_runner import ZIP_OUTPUT, run_crew, run_crew_streaming
 
 router = APIRouter(tags=["Crew"])
 
@@ -78,6 +79,41 @@ async def run_crew_endpoint(
         stdout       = result.stdout,
         stderr       = result.stderr,
         zip_url      = "/crew-download" if result.zip_path else None,
+    )
+
+
+# ---------------------------------------------------------------------------
+# POST /crew-run-stream  (Server-Sent Events — real-time Docker logs)
+# ---------------------------------------------------------------------------
+
+@router.post(
+    "/crew-run-stream",
+    summary="Run CrewAI in Docker and stream logs via SSE",
+    description=(
+        "Same pipeline as POST /crew-run but streams each log line as a "
+        "Server-Sent Event so the browser can display output in real time."
+    ),
+)
+def run_crew_stream_endpoint(
+    skip_zip: bool = Query(default=False),
+) -> StreamingResponse:
+
+    def event_generator():
+        try:
+            for evt_type, stream, line in run_crew_streaming(skip_zip=skip_zip):
+                payload = json.dumps({"type": evt_type, "stream": stream, "line": line})
+                yield f"data: {payload}\n\n"
+        except Exception as exc:
+            payload = json.dumps({"type": "error", "stream": "", "line": str(exc)})
+            yield f"data: {payload}\n\n"
+
+    return StreamingResponse(
+        event_generator(),
+        media_type="text/event-stream",
+        headers={
+            "Cache-Control": "no-cache",
+            "X-Accel-Buffering": "no",   # disable nginx buffering if proxied
+        },
     )
 
 

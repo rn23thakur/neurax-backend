@@ -304,7 +304,105 @@ def _zip_output() -> Path:
 
 
 # ---------------------------------------------------------------------------
-# Public entry point
+# Public streaming entry point
+# ---------------------------------------------------------------------------
+
+def run_crew_streaming(*, skip_zip: bool = False):
+    """
+    Generator that yields (type, stream, line) tuples as the crew runs.
+    Designed to be consumed by a StreamingResponse / SSE endpoint.
+
+    Types:
+      'status' - a pipeline phase message (no stream)
+      'log'    - a line of output (stream = 'build' | 'run')
+      'done'   - run complete (line = zip_url or '')
+      'error'  - fatal error (line = message)
+    """
+    try:
+        yield ('status', '', 'Validating source files…')
+        _validate_sources()
+        copied = _copy_files()
+        _fix_yaml_documents()
+        _write_crew_env()
+        _generate_crew_py()
+        _generate_main_py()
+        yield ('status', '', f'Setup complete — copied: {", ".join(copied)}')
+    except Exception as exc:
+        yield ('error', '', f'Setup failed: {exc}')
+        return
+
+    # ── Docker build (merge stderr→stdout so we get real-time output) ──────
+    yield ('status', '', 'Building Docker image crewai-runner…')
+    build_proc = subprocess.Popen(
+        [DOCKER, "build", "-t", "crewai-runner", "."],
+        cwd=str(CREW_PROJECT),
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT,   # merge so we see progress in real time
+        text=True,
+        encoding="utf-8",
+    )
+    for line in build_proc.stdout:
+        stripped = line.rstrip()
+        print(f"[crewai:build] {stripped}", flush=True)
+        yield ('log', 'build', stripped)
+    build_proc.wait()
+
+    if build_proc.returncode != 0:
+        yield ('error', '', f'Docker build failed (exit {build_proc.returncode})')
+        return
+
+    yield ('status', '', 'Docker build successful — starting crew…')
+
+    # ── Docker run (merge stderr→stdout for real-time CrewAI logs) ─────────
+    output_dir     = CREW_PROJECT / "output"
+    output_dir.mkdir(exist_ok=True)
+    output_dir_str = str(output_dir).replace("\\", "/")
+    env_file       = str(CREW_PROJECT / ".env")
+
+    run_proc = subprocess.Popen(
+        [
+            DOCKER, "run", "--rm",
+            "--name", "crewai-runner-live",
+            "--env-file", env_file,
+            "-v", f"{output_dir_str}:/app/output",
+            "crewai-runner",
+        ],
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT,   # merge so agent logs stream in real time
+        text=True,
+        encoding="utf-8",
+    )
+
+    try:
+        for line in run_proc.stdout:
+            stripped = line.rstrip()
+            print(f"[crewai:run] {stripped}", flush=True)
+            yield ('log', 'run', stripped)
+        run_proc.wait(timeout=600)
+    except subprocess.TimeoutExpired:
+        run_proc.kill()
+        yield ('error', '', 'Crew run timed out after 10 minutes.')
+        return
+
+    if run_proc.returncode != 0:
+        yield ('error', '', f'Docker run failed (exit {run_proc.returncode})')
+        return
+
+    yield ('status', '', 'Crew run complete — zipping output…')
+
+    # ── Zip ─────────────────────────────────────────────────────────────────
+    if not skip_zip:
+        try:
+            _zip_output()
+            yield ('done', '', '/crew-download')
+        except Exception as exc:
+            yield ('error', '', f'Zip failed: {exc}')
+    else:
+        yield ('done', '', '')
+
+
+# ---------------------------------------------------------------------------
+# Public blocking entry point (kept for backward compatibility)
 # ---------------------------------------------------------------------------
 
 def run_crew(*, skip_zip: bool = False) -> RunResult:

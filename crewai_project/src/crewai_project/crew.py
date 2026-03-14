@@ -8,56 +8,60 @@ class MyCrew:
     tasks_config  = "config/tasks.yaml"
 
     @agent
-    def agent_one(self) -> Agent:
-        return Agent(config=self.agents_config["agent_one"], verbose=True)
+    def engineering_manager(self) -> Agent:
+        return Agent(config=self.agents_config["engineering_manager"], verbose=True)
 
     @agent
-    def agent_two(self) -> Agent:
-        return Agent(config=self.agents_config["agent_two"], verbose=True)
+    def systems_architect(self) -> Agent:
+        return Agent(config=self.agents_config["systems_architect"], verbose=True)
 
     @agent
-    def agent_three(self) -> Agent:
-        return Agent(config=self.agents_config["agent_three"], verbose=True)
+    def ml_engineer(self) -> Agent:
+        return Agent(config=self.agents_config["ml_engineer"], verbose=True)
+
+    @agent
+    def backend_engineer(self) -> Agent:
+        return Agent(config=self.agents_config["backend_engineer"], verbose=True)
 
     @task
-    def task_1(self) -> Task:
-        return Task(config=self.tasks_config["task_1"])
+    def task_31(self) -> Task:
+        return Task(config=self.tasks_config["task_31"])
 
     @task
-    def task_2(self) -> Task:
-        return Task(config=self.tasks_config["task_2"])
+    def task_32(self) -> Task:
+        return Task(config=self.tasks_config["task_32"])
 
     @task
-    def task_3(self) -> Task:
-        return Task(config=self.tasks_config["task_3"])
+    def task_33(self) -> Task:
+        return Task(config=self.tasks_config["task_33"])
 
     @task
-    def task_4(self) -> Task:
-        return Task(config=self.tasks_config["task_4"])
+    def task_34(self) -> Task:
+        return Task(config=self.tasks_config["task_34"])
 
     @task
-    def task_5(self) -> Task:
-        return Task(config=self.tasks_config["task_5"])
+    def task_35(self) -> Task:
+        return Task(config=self.tasks_config["task_35"])
 
     @task
-    def task_6(self) -> Task:
-        return Task(config=self.tasks_config["task_6"])
+    def task_36(self) -> Task:
+        return Task(config=self.tasks_config["task_36"])
 
     @task
-    def task_7(self) -> Task:
-        return Task(config=self.tasks_config["task_7"])
+    def task_37(self) -> Task:
+        return Task(config=self.tasks_config["task_37"])
 
     @task
-    def task_8(self) -> Task:
-        return Task(config=self.tasks_config["task_8"])
+    def task_38(self) -> Task:
+        return Task(config=self.tasks_config["task_38"])
 
     @task
-    def task_9(self) -> Task:
-        return Task(config=self.tasks_config["task_9"])
+    def task_39(self) -> Task:
+        return Task(config=self.tasks_config["task_39"])
 
     @task
-    def task_10(self) -> Task:
-        return Task(config=self.tasks_config["task_10"])
+    def task_40(self) -> Task:
+        return Task(config=self.tasks_config["task_40"])
 
     @crew
     def crew(self) -> Crew:

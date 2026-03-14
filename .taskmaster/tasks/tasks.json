@@ -2,134 +2,134 @@
   "master": {
     "tasks": [
       {
-        "id": 21,
-        "title": "Project Initialization and Environment Setup",
-        "description": "Establish the Python-based project structure, dependency management, and base configuration system.",
-        "details": "1. Create the directory structure: `src/data`, `src/models`, `src/engine`, `src/api`, `configs/`, and `logs/`. 2. Initialize `pyproject.toml` or `requirements.txt` with foundational libraries: `torch` or `tensorflow`, `pandas`, `numpy`, `scikit-learn`, `fastapi`, and `pydantic`. 3. Implement a YAML-based configuration loader to manage hyperparameters, data paths, and system settings.",
-        "testStrategy": "Verify that all directories exist and that the environment can be recreated using the dependency file. Validate that the configuration loader correctly parses sample YAML files.",
+        "id": 31,
+        "title": "Establish Project Infrastructure and Configuration System",
+        "description": "Set up the modular Python project structure, environment management, and a centralized configuration system to drive the ML pipeline.",
+        "details": "Initialize a Python environment using 'venv' or 'conda'. Create a directory structure: 'src/' for core logic, 'config/' for YAML/JSON settings, 'data/' for raw/processed datasets, and 'models/' for checkpoints. Implement a configuration manager using 'python-dotenv' and 'PyYAML' to load hyperparameters and system paths. Use 'pyproject.toml' for dependency management including 'torch' (or 'tensorflow'), 'pandas', 'scikit-learn', and 'fastapi'.",
+        "testStrategy": "Verify that all directories are created and that the configuration manager correctly loads values from a sample YAML file into a Python object. Ensure 'pip install .' works correctly.",
         "priority": "high",
         "dependencies": [],
         "status": "pending",
         "subtasks": []
       },
       {
-        "id": 22,
-        "title": "Data Ingestion and Preprocessing Pipeline",
-        "description": "Develop a module to load, clean, transform, and split datasets into training and validation sets.",
-        "details": "1. Implement a `DataLoader` class capable of reading CSV/Parquet files. 2. Include methods for handling missing values (imputation/removal) and categorical encoding. 3. Integrate feature scaling (MinMax or Standard) using Scikit-Learn. 4. Implement a reproducible split function using a random seed.",
-        "testStrategy": "Unit test each preprocessing step (e.g., verify no NaNs remain after cleaning). Assert that the split ratio is correctly applied and that training/validation sets are disjoint.",
+        "id": 32,
+        "title": "Develop Data Ingestion and Preprocessing Pipeline",
+        "description": "Create modules to load raw data, perform cleaning, handle missing values, and execute feature transformations.",
+        "details": "Implement a 'DataProcessor' class in 'src/data_pipeline.py'. Use 'pandas' for CSV/JSON ingestion. Include methods for: 1. Cleaning (removing duplicates), 2. Imputation (filling NaNs with mean/median), 3. Transformation (StandardScaler or MinMaxScaler), and 4. Splitting (train_test_split). Ensure the pipeline is reproducible by saving transformation parameters.",
+        "testStrategy": "Unit test each cleaning and transformation method with edge cases (e.g., all null columns). Integration test the full pipeline from raw file to scaled training tensors.",
         "priority": "high",
         "dependencies": [
-          21
+          31
         ],
         "status": "pending",
         "subtasks": []
       },
       {
-        "id": 23,
-        "title": "Configurable Neural Network Architecture",
-        "description": "Implement a modular neural network class that supports configurable layers and activation functions.",
-        "details": "1. Create a `NeuralNet` class inheriting from `torch.nn.Module`. 2. Use the configuration file to dynamically build layers (Linear/Dense). 3. Support various activation functions (ReLU, Sigmoid, Tanh) passed via parameters. 4. Ensure the output layer matches the prediction task (Regression/Classification).",
-        "testStrategy": "Instantiate models with different configurations (e.g., 3 layers vs 5 layers) and verify the parameter count and layer types match the definition.",
+        "id": 33,
+        "title": "Implement Modular Neural Network Architecture",
+        "description": "Design a flexible neural network class that allows for configurable layers and activation functions based on input features.",
+        "details": "Define a 'NeuralNet' class inheriting from 'torch.nn.Module'. Use the configuration file to determine the number of hidden layers, neurons per layer, and activation functions (e.g., ReLU, Sigmoid). Ensure the input dimension dynamically adapts to the preprocessed features from Task 32. Use 'nn.Sequential' for modular assembly of the layers.",
+        "testStrategy": "Instantiate the model with various configurations from the YAML file and perform a dummy forward pass with a tensor of the expected input shape to ensure no dimension mismatches.",
         "priority": "high",
         "dependencies": [
-          21
+          31,
+          32
         ],
         "status": "pending",
         "subtasks": []
       },
       {
-        "id": 24,
-        "title": "Loss and Optimization Module",
-        "description": "Configure the loss functions and optimization strategies for the training process.",
-        "details": "1. Create a factory for loss functions (MSELoss, CrossEntropyLoss) and optimizers (Adam, SGD). 2. Implement a learning rate scheduler strategy (e.g., StepLR or ReduceLROnPlateau). 3. Ensure these are linked to the global configuration file for easy experimentation.",
-        "testStrategy": "Check if gradients are being calculated correctly after a dummy forward pass and ensure the optimizer updates weights.",
+        "id": 34,
+        "title": "Configure Loss Functions and Optimization Strategies",
+        "description": "Set up the training objectives and parameter update logic using standard optimizers and learning rate schedulers.",
+        "details": "Create a factory module to instantiate loss functions (e.g., 'nn.MSELoss', 'nn.CrossEntropyLoss') and optimizers (e.g., 'Adam', 'SGD') based on the PRD configuration. Implement a learning rate scheduler (e.g., 'StepLR' or 'ReduceLROnPlateau') to manage the training regime as specified in the PRD.",
+        "testStrategy": "Verify that the optimizer correctly updates model parameters during a single mock training step. Ensure the loss function returns a scalar tensor with a gradient function attached.",
         "priority": "medium",
         "dependencies": [
-          23
+          33
         ],
         "status": "pending",
         "subtasks": []
       },
       {
-        "id": 25,
-        "title": "Training Engine Implementation",
-        "description": "Build the core training loop including epoch control, batch processing, and backpropagation.",
-        "details": "1. Implement a `Trainer` class that manages the loop. 2. Integrate the `DataLoader` for batching. 3. Implement forward pass, loss calculation, backward pass, and parameter updates. 4. Add logic for tracking loss per epoch and printing progress.",
-        "testStrategy": "Run training on a small synthetic dataset and verify that the loss decreases over time. Ensure the loop stops correctly after the specified number of epochs.",
+        "id": 35,
+        "title": "Build the Training Engine and Batch Processing Loop",
+        "description": "Implement the core training loop including epoch control, batching, forward/backward passes, and parameter updates.",
+        "details": "Develop a 'Trainer' class in 'src/engine.py'. Use 'torch.utils.data.DataLoader' for batching. The loop must iterate through epochs, perform 'optimizer.zero_grad()', 'loss.backward()', and 'optimizer.step()'. Include logic to track the running loss and report progress to the console/logger. Ensure integration with the DataProcessor output.",
+        "testStrategy": "Run a training cycle on a tiny 'overfit' dataset (5-10 rows) and verify that the loss decreases significantly over 50 epochs.",
         "priority": "high",
         "dependencies": [
-          22,
-          23,
-          24
+          32,
+          34
         ],
         "status": "pending",
         "subtasks": []
       },
       {
-        "id": 26,
-        "title": "Evaluation and Metrics Suite",
-        "description": "Develop a suite to calculate performance metrics such as Accuracy, F1 Score, and Loss.",
-        "details": "1. Create an `Evaluator` class that puts the model in evaluation mode (`model.eval()`). 2. Implement logic to calculate Accuracy, Precision, Recall, and F1 Score using `sklearn.metrics`. 3. Output a detailed evaluation report after each validation run or at the end of training.",
-        "testStrategy": "Compare the Evaluator's output against manually calculated metrics for a fixed set of predictions and ground truth labels.",
+        "id": 36,
+        "title": "Implement Model Serialization and Checkpointing",
+        "description": "Enable the system to save and restore model weights, optimizer states, and metadata to support resumed training and deployment.",
+        "details": "Implement 'save_checkpoint' and 'load_checkpoint' functions. The checkpoint should be a dictionary containing: 'model_state_dict', 'optimizer_state_dict', 'epoch', and 'loss'. Save files as '.pth' or '.pt' in the 'models/' directory. Use timestamped filenames or 'best_model.pth' logic.",
+        "testStrategy": "Train a model for 1 epoch, save it, modify the model weights, load the checkpoint, and assert that the loaded weights match the saved weights exactly.",
         "priority": "medium",
         "dependencies": [
-          25
+          35
         ],
         "status": "pending",
         "subtasks": []
       },
       {
-        "id": 27,
-        "title": "Model Serialization and Checkpointing",
-        "description": "Implement logic to save and restore model weights, optimizer states, and training metadata.",
-        "details": "1. Add a checkpointing mechanism to the `Trainer` to save the best model based on validation loss. 2. Implement `save_model` and `load_model` functions using `torch.save` or equivalent. 3. Include training state metadata (epoch number, seed) in the checkpoint file.",
-        "testStrategy": "Train a model for 2 epochs, save it, load it back, and ensure that continuing training from epoch 3 yields consistent results.",
+        "id": 37,
+        "title": "Develop Evaluation Suite for Performance Metrics",
+        "description": "Create a module to calculate Accuracy, Precision, Recall, F1 Score, and Loss metrics on the validation/test set.",
+        "details": "Implement an 'Evaluator' class. Use 'scikit-learn.metrics' for calculating multi-class or binary classification metrics (Accuracy, Precision, Recall, F1). For regression, include RMSE/MAE. The module should produce a summary report and optionally save metrics to a JSON file for history tracking.",
+        "testStrategy": "Compare the Evaluator's output against manually calculated metrics for a small fixed prediction set to ensure mathematical correctness.",
         "priority": "medium",
         "dependencies": [
-          25
+          35,
+          36
         ],
         "status": "pending",
         "subtasks": []
       },
       {
-        "id": 28,
-        "title": "Inference Engine and Wrapper",
-        "description": "Develop a prediction wrapper that converts raw input features into model-ready tensors and returns results.",
-        "details": "1. Implement an `InferenceEngine` class that loads a serialized model. 2. Reuse the preprocessing logic from Task 22 to transform new, unseen input data. 3. Handle tensor conversion and batching for inference requests.",
-        "testStrategy": "Verify that providing a single raw input record results in a prediction that matches the expected shape and data type.",
+        "id": 38,
+        "title": "Build Inference Engine and Prediction API",
+        "description": "Expose the trained model via a REST API using FastAPI to serve real-time predictions.",
+        "details": "Create 'app/main.py' using 'FastAPI'. Implement a POST endpoint '/predict' that: 1. Accepts a JSON payload of features, 2. Preprocesses the input using the saved transformation parameters from Task 32, 3. Loads the latest checkpoint, 4. Runs a forward pass in 'eval' mode, 5. Returns the prediction result as JSON.",
+        "testStrategy": "Use 'pytest' and 'httpx' to send a POST request to the local API server and verify the response structure and status code (200 OK).",
         "priority": "medium",
         "dependencies": [
-          22,
-          27
+          36
         ],
         "status": "pending",
         "subtasks": []
       },
       {
-        "id": 29,
-        "title": "Prediction API Development",
-        "description": "Create a FastAPI application to serve model predictions through a REST endpoint.",
-        "details": "1. Define a Pydantic model for input data validation. 2. Create a POST endpoint `/predict` that triggers the `InferenceEngine`. 3. Add a GET endpoint `/health` to check system status. 4. Implement basic error handling for invalid input data.",
-        "testStrategy": "Start the API server and send a POST request with valid JSON data; verify the response contains a prediction. Send invalid data and verify a 422 error is returned.",
-        "priority": "medium",
-        "dependencies": [
-          28
-        ],
-        "status": "pending",
-        "subtasks": []
-      },
-      {
-        "id": 30,
-        "title": "Logging, Monitoring, and Deployment Setup",
-        "description": "Add system-wide logging and prepare the environment for deployment using Docker.",
-        "details": "1. Configure the Python `logging` module to output to both console and `logs/` directory. 2. Log system events, training progress, and API request metadata. 3. Create a `Dockerfile` for the API and training worker. 4. Provide a `README.md` with instructions for setup and deployment.",
-        "testStrategy": "Verify that logs are correctly populated in the log file. Build the Docker image and ensure the container starts without errors.",
+        "id": 39,
+        "title": "Integrate Logging and System Monitoring",
+        "description": "Implement comprehensive logging for training progress, loss tracking, and system events.",
+        "details": "Configure the standard 'logging' library to output to both 'logs/system.log' and stdout. Use 'matplotlib' or 'seaborn' to generate a 'loss_curve.png' and 'metrics_plot.png' at the end of training. Log key events: data loading start, training epoch end, evaluation results, and API request errors.",
+        "testStrategy": "Check the 'logs/' directory after a training run to ensure the log file exists and contains the expected epoch entries. Verify the generation of the loss curve image.",
         "priority": "low",
         "dependencies": [
-          21,
-          25,
-          29
+          35,
+          37
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 40,
+        "title": "Create Deployment Wrapper and Documentation",
+        "description": "Prepare the system for production using containerization and startup scripts.",
+        "details": "Write a 'Dockerfile' that installs system dependencies, copies the source code, and sets the 'uvicorn' command for the API. Create a 'docker-compose.yml' for orchestration. Provide a 'README.md' with setup instructions, API documentation, and examples of how to run the training vs. inference modes.",
+        "testStrategy": "Build the Docker image and run the container locally. Verify that the '/predict' endpoint is accessible from the host machine.",
+        "priority": "low",
+        "dependencies": [
+          38,
+          39
         ],
         "status": "pending",
         "subtasks": []
@@ -137,7 +137,7 @@
     ],
     "metadata": {
       "created": "2026-03-14T18:58:30.507Z",
-      "updated": "2026-03-14T23:11:36.712Z",
+      "updated": "2026-03-14T23:28:31.495Z",
       "description": "Tasks for master context"
     }
   }
